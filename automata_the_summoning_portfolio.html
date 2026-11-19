@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Summoning — Automata Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #0c090b;
+    --card: #161013;
+    --ink: #e7dccb;
+    --muted: #a09285;
+    --rule: #3b2a2d;
+    --accent: #d0453a;
+    --blood: #8f1d1d;
+    --gold: #c2a15a;
+    --accent-soft: #2c1417;
+    --todo-bg: #2a220b;
+    --todo-edge: #d4a514;
+    --img-bg: #fff;
+    --display: "Cinzel", "Trajan Pro", Georgia, serif;
+    --sigil: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23c2a15a' stroke-width='1'%3E%3Ccircle cx='12' cy='12' r='11'/%3E%3Cpath d='M12 2 17.88 20.09 2.49 8.91 21.51 8.91 6.12 20.09Z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse 90% 50% at 50% 0%, #1d0e11 0%, transparent 70%),
+      var(--paper);
+    color: var(--ink);
+    font: 19px/1.6 "EB Garamond", Georgia, "Times New Roman", serif;
+  }
+  .page { max-width: 900px; margin: 0 auto; padding: 0 20px 80px; }
+  a { color: var(--accent); }
+
+  header.cover {
+    background: radial-gradient(ellipse 70% 90% at 50% 115%, #6b1212 0%, #1a0c0e 55%, #050304 100%);
+    color: #f1e6d4;
+    padding: 48px 20px 52px;
+    text-align: center;
+    border-bottom: 1px solid var(--gold);
+    box-shadow: 0 3px 0 #050304, 0 4px 0 var(--blood);
+  }
+  header.cover .sigil {
+    width: 84px; height: 84px; margin: 0 auto 18px; display: block;
+    filter: drop-shadow(0 0 10px rgba(208, 69, 58, .7));
+  }
+  header.cover .kicker {
+    font: 600 13px/1 var(--display);
+    letter-spacing: .3em; text-transform: uppercase; color: var(--gold);
+  }
+  header.cover h1 {
+    font-family: "UnifrakturCook", "Old English Text MT", var(--display);
+    font-size: clamp(48px, 10vw, 88px); line-height: 1.05;
+    margin: 16px 0 12px; font-weight: 700; letter-spacing: .01em;
+    text-shadow: 0 0 18px rgba(208, 69, 58, .65), 0 2px 0 #000;
+  }
+  header.cover p { margin: 0; color: #cdb9a5; font-style: italic; }
+
+  nav.toc {
+    display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: center;
+    padding: 14px 20px; border-bottom: 1px solid var(--rule);
+    background: #0a0708;
+    font: 600 13px/1.5 var(--display); letter-spacing: .12em; text-transform: uppercase;
+  }
+  nav.toc a { color: var(--gold); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); }
+
+  section { padding-top: 56px; }
+  h2 {
+    font: 600 27px/1.25 var(--display); letter-spacing: .06em;
+    text-align: center; color: #f1e6d4;
+    margin: 0 0 24px; padding: 40px 0 14px;
+    background: var(--sigil) center top / 28px 28px no-repeat;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  h2::after {
+    content: ""; position: absolute; left: 50%; bottom: -1px;
+    width: 120px; height: 1px; transform: translateX(-50%);
+    background: var(--blood); box-shadow: 0 0 8px var(--accent);
+  }
+  h3 {
+    font: 600 14px/1.3 var(--display);
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin: 30px 0 10px;
+  }
+  p { margin: 0 0 12px; }
+  ol, ul { margin: 0 0 12px; padding-left: 26px; }
+  li { margin-bottom: 8px; }
+  ol ol { list-style: lower-alpha; margin-top: 8px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--rule);
+    border-top: 1px solid var(--gold);
+    border-radius: 2px; padding: 20px 22px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+  }
+  dl.qa { margin: 0; }
+  dl.qa dt { font-weight: 700; margin-top: 12px; color: var(--gold); }
+  dl.qa dt:first-child { margin-top: 0; }
+  dl.qa dd { margin: 2px 0 0; }
+
+  /* Text that still needs the designer's own words */
+  .todo {
+    background: var(--todo-bg); border-left: 4px solid var(--todo-edge);
+    padding: 8px 12px; border-radius: 3px;
+  }
+  span.todo { padding: 1px 6px; border-left-width: 3px; }
+  .blank { display: inline-block; min-width: 130px; border-bottom: 1px solid var(--ink); }
+
+  /* Image slots */
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  figure { margin: 0; }
+  figure img, figure video {
+    display: block; width: 100%; height: auto;
+    background: var(--img-bg); border: 1px solid var(--gold); border-radius: 2px;
+    box-shadow: 0 0 0 4px #050304, 0 0 0 5px var(--rule), 0 10px 26px rgba(0, 0, 0, .6);
+  }
+  figcaption {
+    font: 600 12px/1.4 var(--display); letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-top: 14px; text-align: center;
+  }
+  .slot {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    min-height: 220px; padding: 18px; text-align: center;
+    border: 1px dashed #6a4a4d; border-radius: 2px;
+    background: radial-gradient(ellipse at 50% 100%, #24100f 0%, #120c0e 70%);
+    font: 16px/1.5 "EB Garamond", Georgia, serif; color: var(--muted);
+  }
+  .slot strong { color: var(--ink); font: 600 14px/1.4 var(--display); letter-spacing: .06em; }
+  code { background: var(--accent-soft); padding: 1px 6px; border-radius: 2px; color: #e9897f; font-size: .8em; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 18px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font: 600 12px/1.3 var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); border-bottom-color: var(--gold); }
+  .table-wrap { overflow-x: auto; }
+
+  .hero { max-width: 560px; margin: 0 auto; }
+  .video-link {
+    display: inline-block; font: 600 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase;
+    background: linear-gradient(#a32020, #6b1212); color: #f6ead8; text-decoration: none;
+    padding: 14px 24px; border: 1px solid var(--gold); border-radius: 2px;
+    box-shadow: 0 0 16px rgba(208, 69, 58, .35);
+  }
+  .video-link:hover { box-shadow: 0 0 22px rgba(208, 69, 58, .7); }
+  footer {
+    margin-top: 64px; padding-top: 44px; color: var(--muted); text-align: center;
+    font: 600 12px/1.4 var(--display); letter-spacing: .18em; text-transform: uppercase;
+    background: var(--sigil) center 8px / 24px 24px no-repeat;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Printing switches back to dark ink on white paper */
+  @media print {
+    :root {
+      --paper: #fff; --card: #fff; --ink: #000; --muted: #444; --rule: #bbb;
+      --accent: #7a1414; --gold: #5c4a1c; --accent-soft: #eee; --todo-bg: #fff4c2;
+    }
+    body { background: #fff; font-size: 12pt; }
+    header.cover { background: #fff; color: #000; border-bottom: 2px solid #000; box-shadow: none; padding: 24px 0; }
+    header.cover .sigil { filter: none; }
+    header.cover h1 { text-shadow: none; }
+    header.cover p { color: #333; }
+    nav.toc { display: none; }
+    section { break-inside: avoid-page; padding-top: 24px; }
+    h2 { color: #000; }
+    h2::after { box-shadow: none; }
+    .card, figure img { box-shadow: none; }
+    figure, .card, tr { break-inside: avoid; }
+    .slot { background: #fff; }
+    code { color: #7a1414; }
+    .video-link { background: none; color: #000; padding: 0; border: 0; box-shadow: none; text-decoration: underline; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <svg class="sigil" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#d0453a" stroke-width="0.7">
+    <circle cx="12" cy="12" r="11.4"/>
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M12 2 17.88 20.09 2.49 8.91 21.51 8.91 6.12 20.09Z"/>
+  </svg>
+  <div class="kicker">Automata Design Project · Portfolio</div>
+  <h1>The Summoning</h1>
+  <p>A hand-cranked, three-cam automaton</p>
+</header>
+
+<nav class="toc">
+  <a href="#designer">Designer</a>
+  <a href="#brief">Design Brief</a>
+  <a href="#sketches">Concept Sketches</a>
+  <a href="#story">Story</a>
+  <a href="#exploded">Exploded View</a>
+  <a href="#graphs">Motion Graphs</a>
+  <a href="#video">Video</a>
+  <a href="#reflection">Reflection</a>
+</nav>
+
+<div class="page">
+
+<!-- ============ ABOUT THE DESIGNER ============ -->
+<section id="designer">
+  <h2>About the Designer</h2>
+  <div class="card">
+    <p class="todo">My name is Kyle Sherman. I teach computer science and engineering at a local high school in Brooklyn, NY. I have an interest in the darker side of pop culture and the occult.</p>
+  </div>
+</section>
+
+<!-- ============ DESIGN BRIEF ============ -->
+<section id="brief">
+  <h2>Design Brief</h2>
+
+  <h3>Problem Statement</h3>
+  <div class="card">
+    <dl class="qa">
+      <dt>What is the problem?</dt>
+      <dd>I want a hand-cranked automaton for my own collection that reflects my interest in the occult and the gothic. Mechanical toys and kinetic display pieces are almost always whimsical or aimed at children, and nothing I can buy captures the darker imagery I enjoy: the ritual magic and demon-summoning of the <em>Hellblazer</em> comics, and the pentagrams, hooded figures and candle-lit altars of metal album art.</dd>
+      <dt>Who has the problem?</dt>
+      <dd>I do, as both the designer and the end user. This is a personal piece for an adult collector, not a product for children.</dd>
+      <dt>Why is the problem important?</dt>
+      <dd>A display piece means more when it says something about the person who owns it. Designing my own lets me tell a story I actually care about, a summoning ritual in three movements, while still demonstrating how cams and followers turn the rotation of one axle into coordinated motion.</dd>
+    </dl>
+  </div>
+
+  <h3>Design Statement</h3>
+  <p>Design an automaton that includes a mechanical system that will produce realistic motion of a figure(s) or object(s) resulting from the rotation of an axle. The motion results in the interaction or coordinated movement of at least two separate displayed objects.</p>
+
+  <h3>Criteria</h3>
+  <ol>
+    <li>The mechanical system must be human powered.</li>
+    <li>The axle must pass through the box. Turning the axle must convert the rotational motion of the axle to linear motion of objects outside of the box OR translate rotational motion from one plane to another.</li>
+    <li>In addition to an axle, the mechanical system must include at least two cams. To create a more realistic motion, if desired, you may include additional components, such as gears, levers and cranks.</li>
+    <li>The automata objects should display realistic motion of the real objects they represent. Before manufacturing the mechanical components, students must create a motion graph to represent the desired motion(s) of the displayed objects. The motion of the displayed objects should accurately reflect the vertical motion represented by the motion graph within 1/8 inch.</li>
+    <li>A 3D solid model of the system must provide the ability to alter the nominal diameter of each cam causing an automatic change in the scale of the cam. Therefore, each cam must incorporate parameter variables.</li>
+    <li>The automaton must meet quality and reliability specifications:
+      <ol>
+        <li>The system must operate as designed for at least one minute at a sustained speed of one revolution per second without noticeable damage to any component of the design.</li>
+        <li>There must be no visible “slip” or “disconnect” between components in all cycles.</li>
+      </ol>
+    </li>
+  </ol>
+
+  <h3>Constraints</h3>
+  <ol>
+    <li>The design cannot include VEX components.</li>
+    <li>[Size] The assembled hand-operated automaton must fit completely within a rectangular prism that measures 6 in. × 8 in. × 12 in. when in a static state.</li>
+    <li>[Time] A physical prototype must be created for testing and review by November 18, 2026.</li>
+  </ol>
+</section>
+
+<!-- ============ CONCEPT SKETCHES ============ -->
+<section id="sketches">
+  <h2>Concept Sketches</h2>
+  <div class="grid">
+    <figure>
+      <img src="images/concept_sketch_1.png" alt="Concept sketch 1" data-slot="Concept sketch 1">
+      <figcaption>Concept sketch 1</figcaption>
+    </figure>
+    <figure>
+      <img src="images/concept_sketch_2.png" alt="Concept sketch 2" data-slot="Concept sketch 2">
+      <figcaption>Concept sketch 2</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section id="story">
+  <h2>What story did you decide to tell?</h2>
+  <div class="card">
+    <p>At midnight, a hooded cultist stands before a candle-lit altar and begins the ritual. As the crank turns, the cultist rises and bows over the altar slab, and the ceremony takes hold. Under the gothic arch, a demon climbs out of the pentagram at the centre of the summoning circle, jerking upward one notch at a time. Across the stage a coffin lid has been left open, and a skull slowly lifts out of it to see who has disturbed its rest.</p>
+    <p>Each turn of the handle repeats the ritual: the cultist bows, the demon rises, and the skull peeks out, then everything sinks back down to wait for the next summoning.</p>
+  </div>
+
+  <h3>The Fusion model</h3>
+  <figure class="hero">
+    <img src="images/fusion_render.png" alt="Isometric render of The Summoning automaton from Fusion: a wooden box with a crank on the side and three figures on top.">
+    <figcaption>Fusion model: <em>automata_the_summoning</em></figcaption>
+  </figure>
+
+  <h3>How it works</h3>
+  <p>A single crank turns one camshaft that passes through both sides of the box. Three cams are fixed along the shaft. Each cam lifts a roller follower, whose rod slides through the top of the box and carries a figure.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Cam</th><th>Position on shaft</th><th>Follower</th><th>Figure it moves</th><th>Scenery around it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pear cam</td><td>1.435 in</td><td>Roller, yoke and rod</td><td>Risen Skull</td><td>Coffin</td></tr>
+        <tr><td>“Satan’s Spine” cam</td><td>2.685 in</td><td>Roller, yoke and rod</td><td>Demon</td><td>Summoning circle, pentagram, gothic arch</td></tr>
+        <tr><td>Snail cam</td><td>3.935 in</td><td>Roller, yoke and rod</td><td>Hooded Cultist</td><td>Altar (pedestal, slab, candles)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:12px">The box is built from four ¼ in panels (top, bottom, left side, right side), with the front and back left open so the mechanism can be seen.</p>
+</section>
+
+<!-- ============ EXPLODED VIEW ============ -->
+<section id="exploded">
+  <h2>Exploded View</h2>
+  <figure>
+    <video src="videos/exploded_view.mp4" autoplay muted loop controls preload="metadata" playsinline>
+      Your browser can't play this video. <a href="videos/exploded_view.mp4">Download it instead</a>.
+    </video>
+    <figcaption>Fusion exploded view of the full assembly</figcaption>
+  </figure>
+</section>
+
+<!-- ============ MOTION GRAPHS ============ -->
+<section id="graphs">
+  <h2>Motion Graphs</h2>
+  <div class="grid">
+    <figure>
+      <img src="images/motion_graph_cam_1.png" alt="Motion graph for cam 1, the pear cam" data-slot="Motion graph: Cam 1 (pear cam, Risen Skull)">
+      <figcaption>Cam 1: pear cam (Risen Skull)</figcaption>
+    </figure>
+    <figure>
+      <img src="images/motion_graph_cam_2.png" alt="Motion graph for cam 2, the Satan's Spine cam" data-slot="Motion graph: Cam 2 (Satan’s Spine cam, Demon)">
+      <figcaption>Cam 2: “Satan’s Spine” cam (Demon)</figcaption>
+    </figure>
+    <figure>
+      <img src="images/motion_graph_cam_3.png" alt="Motion graph for cam 3, the snail cam" data-slot="Motion graph: Cam 3 (snail cam, Hooded Cultist)">
+      <figcaption>Cam 3: snail cam (Hooded Cultist)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ VIDEO ============ -->
+<section id="video">
+  <h2>Video of Fusion Automata Working (Three Turns)</h2>
+  <figure>
+    <video src="videos/automata_3_revolutes.mp4" controls preload="metadata" playsinline>
+      Your browser can't play this video. <a href="videos/automata_3_revolutes.mp4">Download it instead</a>.
+    </video>
+    <figcaption>Fusion motion study: three full turns of the crank</figcaption>
+  </figure>
+</section>
+
+<!-- ============ PHYSICAL PROTOTYPE ============ -->
+<!-- Hidden until images/prototype.png exists. Remove this comment wrapper (and restore the nav link) to show it.
+<section id="prototype">
+  <h2>Physical Prototype</h2>
+  <div class="grid">
+    <figure>
+      <img src="images/prototype.png" alt="Photo of the physical prototype" data-slot="Photo of the physical prototype">
+      <figcaption>Physical prototype</figcaption>
+    </figure>
+  </div>
+</section>
+-->
+
+<!-- ============ REFLECTION ============ -->
+<section id="reflection">
+  <h2>Reflection / Conclusion Questions</h2>
+
+  <h3>What were the limitations of each model that you developed during this project?</h3>
+  <div class="card">
+    <dl class="qa">
+      <dt>Conceptual model</dt>
+      <dd>The sketches showed the story and the layout of the three figures, but they had no real dimensions. They could not show whether the cams would clear each other and the box, or whether the figures would actually move the way I pictured.</dd>
+      <dt>Computer model</dt>
+      <dd>The Fusion model shows exact geometry and ideal motion, but it ignores friction, the weight of the figures, loose fits, and material thickness tolerances. A follower that drops cleanly off the snail cam on screen might stick or bounce in the real automaton.</dd>
+      <dt>Mathematical model</dt>
+      <dd>The cam calculations give displacement at each angle, but only at the points I calculated. They assume the roller stays in perfect contact with the cam and say nothing about speed, force, or wear.</dd>
+      <dt>Graphical model</dt>
+      <dd>The motion graphs show vertical displacement over one rotation, which makes the timing between figures easy to compare. They only show one direction of motion, though, and they cannot show whether a steep section of the graph is physically possible for the follower to climb.</dd>
+    </dl>
+  </div>
+
+
+
+  <h3>Friction and springs</h3>
+  <div class="card">
+    <p class="todo"><strong>Drafts — edit to match your own experience.</strong></p>
+    <dl class="qa">
+      <dt>What are ways you could decrease friction in your design?</dt>
+      <dd>Each follower already rides on a roller wheel instead of dragging a flat pad across the cam, which swaps sliding friction for rolling friction. Friction could be reduced further by sanding and waxing the cam edges, lining the rod holes in the top of the box and the axle holes in the sides with a smooth bushing, and keeping the rods straight so they do not bind.</dd>
+      <dt>Are there any areas where it would be beneficial to increase friction in your design?</dt>
+      <dd>Yes. The cams and the crank need a tight, high-friction (or pinned) fit on the axle so they do not slip, since any slip would break the timing between the three figures. A grippy handle on the crank also makes the automaton easier to turn at a steady speed.</dd>
+      <dt>Where and why would you incorporate springs into your design?</dt>
+      <dd>A light compression spring on each follower rod, between the top of the box and the yoke, would hold the roller against its cam. This matters most on the snail cam, where the follower drops suddenly, and at higher crank speeds, where a light figure could float off the cam instead of following it.</dd>
+    </dl>
+  </div>
+</section>
+
+<footer>The Summoning · Automata Design Project Portfolio</footer>
+
+</div>
+
+<script>
+  // Any image that isn't in the images folder yet shows as a labelled slot instead of a broken picture.
+  document.querySelectorAll('img[data-slot]').forEach(function (img) {
+    function showSlot() {
+      var slot = document.createElement('div');
+      slot.className = 'slot';
+      var title = document.createElement('strong');
+      title.textContent = img.dataset.slot;
+      var hint = document.createElement('span');
+      hint.append('Image needed: save as ');
+      var code = document.createElement('code');
+      code.textContent = img.getAttribute('src');
+      hint.append(code);
+      slot.append(title, hint);
+      img.replaceWith(slot);
+    }
+    if (img.complete && img.naturalWidth === 0) showSlot();
+    else img.addEventListener('error', showSlot);
+  });
+</script>
+</body>
+</html>

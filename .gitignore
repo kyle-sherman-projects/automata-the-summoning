@@ -1,0 +1,9 @@
+# Publish only what the portfolio page uses.
+/*
+!/.gitignore
+!/index.html
+!/automata_the_summoning_portfolio.html
+!/images/
+!/videos/
+/images/satans_spine_mv.png
+/videos/*.avi
